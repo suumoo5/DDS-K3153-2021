@@ -1,4 +1,4 @@
-Class Prenda{
+class Prenda{
 	TipoPrenda tipoPrenda;
 	Material material;
 	ColorPrimario colorPrimario;
@@ -31,7 +31,7 @@ public PrendaInvalidaException extends RuntimeException {
   	public PrendaInvalidaException(){super("La prenda es invalida");}
 }
 
-Enum TipoPrenda{
+enum TipoPrenda{
 	Categoria categoria;
 	public TipoPrenda(Categoria categoria);
 
@@ -39,17 +39,17 @@ Enum TipoPrenda{
 		return this.categoria;
 	}
 
-	ZAPATOS(CALZADO)
-	CAMISADEMANGASCORTAS(PARTE_SUPERIOR)
-	PANTALON(PARTE_INFERIOR)
+	ZAPATOS(Categoria.CALZADO),
+	CAMISADEMANGASCORTAS(Categoria.PARTE_SUPERIOR),
+	PANTALON(Categoria.PARTE_INFERIOR)
 }
 
-Enum Material{}
-Enum ColorPrimario{}
-Enum ColorSecundario{}
-Enum Categoria{
-	PARTE_SUPERIOR;
-	CALZADO;
-	PARTE_INFERIOR;
+enum Material{}
+enum ColorPrimario{}
+enum ColorSecundario{}
+enum Categoria{
+	PARTE_SUPERIOR,
+	CALZADO,
+	PARTE_INFERIOR,
 	ACCESORIOS
 }

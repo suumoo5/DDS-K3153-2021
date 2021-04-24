@@ -1,0 +1,13 @@
+- La clase Prenda le modifiqué la logica en la mitad y no lo replique en todos lados. La idea es que el Estado calcule el precio total, pasandole el precioPropio en el metodo precio(). Algo asi:
+
+Prenda{
+     int precioPropio
+     precio(precioPropio){
+        tipoDePrenda.precioEstado(precioPropio);
+     }
+}
+- Agrego la clase Nueva
+
+Nueva{
+      precioEstado(precioPropio){ return precioPropio; }
+}

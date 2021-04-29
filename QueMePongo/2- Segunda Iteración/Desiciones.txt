@@ -1,0 +1,33 @@
+- A la trama la hice una variable de Material y se instancia en el constructor de Material.
+Trama, a su vez, es un enum, debido a la cantidad acotadas de tramas y facilidad de comprobación.
+Es decir, Material conoce su Trama, y Prenda va a tener que preguntar al Material, que Trama tiene
+
+- Especificación de la instanciación de la Prenda:
+	- para que solamente se instancie una prenda con el Tipo, utilizo un constructor Prenda() que solamente reciba dicho tipo.
+	Con esto me aseguro que la prenda va a ser creada solamente con el Tipo.
+	- luego, para especificar los demas valores (color, material, trama), uso aspectosDelMaterial() y hago las validaciones correspondientes
+
+- para el borrador, voy a tener una clase Borrador, que va a ser de tipo Prenda.
+Se va a actualizar, en la primera y segunda especificación. Faltaría que me definan si va a haber otra instancia en
+que se va a poder modificar la Prenda para poder agregarle la actualización ahi.
+
+- Voy a poder guardar una prenda válida cuando Material, ColorPrimario sean distintos a null, ya que son las unicos
+valores cambiantes, ya que tanto el Tipo como el Material es extremadamente dificil que cambie y ademas, obligamos a que el Tipo exista por
+el constructor y no codeando el setter.
+
+- Tengo un objeto Guardarropas, que va a contener todas las prendas VALIDAS. Lo hice un objeto debido a que tengo que saber de su existencia y ponerlo como variable
+de Prenda, me resultaba raro. Cada prenda, al validarse, se guarda en este Guardarropa.
+
+- La clase uniforme, consta de parte superior, inferior y calzado, y corroboro que siempre conste de estas tres prendas y no sea inválido,
+dentro del constructor.
+
+- La sugerencia lo tomé como un string, un comentario digamos, hecho hacia un Uniforme que ya existe.
+El uniforme tiene una Lista de sugerencias.
+
+Observaciones
+- esPrendaValida() solo corrobora por la existencia de material y color, debido a que el Tipo va a existir si o si, por constructor. Pero tanto Material
+Trama como color primario y secundario pueden no existir porque es un paso posterior a su creación.
+-Asumo que es muy dificil que el tipo, la categoría
+
+-No estoy conforme en usar un objeto Guardarropa, pero en mi cabeza, me era necesario que exita un lugar que todos conozcan
+y en el cual se guarden las Prendas.

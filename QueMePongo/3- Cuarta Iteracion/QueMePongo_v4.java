@@ -96,19 +96,21 @@ enum Categoria{
 	ACCESORIOS
 }
 
-
-/*Elijo la solución basada en composición y Abstract Factory. Si bien en la clase Uniforme
+/*Elijo la solución basada en composición y Abstract Factory. Si bien en la clase Uniforme, ahora Atuendo,
 queda 100% comportamiento y tiene el metodo de clase, no me ato a la herencia y en "gastar
-una chance". Tambien, Sastre, queda mas expresivo sobre lo que está haciendo.
+una chance"; Sastre queda mas expresivo sobre lo que está haciendo; 
 
 */
-class Uniforme{
+
+// Unifrome, Atuendo, Sugerencia --> Misma estructura 
+
+class Atuendo{
     Prenda prendaSuperior;
     Prenda prendaInferior;
     Prenda calzado;
 
     static fabricar(Sastre sastre){
-       new Uniforme(
+       new Atuendo(
           sastre.fabricarParteSuperior(),
           sastre.fabricarParteInferior(),
           sastre.fabricarCalzado())
@@ -142,39 +144,41 @@ class SastreSanJuan implements Sastre{
 	}
 }
 
-// ### CUARTA ENTREGA ###
 
-//Quiero poder recibir sugerencias de atuendos que tengan una prenda para cada
-//categoría, aunque a futuro podrán tener más
-
-class Atuendo{
-	List<Prenda> prendas; 
-
-	public Atuendo(List<Prenda> ... unasPrendas){
-		categoríasDePrenda = unasPrendas.forEach(prenda -> prenda.getCategoria);
-		unasPrendas.forEach(prenda -> prenda.getCategoria().)
-	}
-
-	public sonPrendasQueNoRepitenCategoria(List<Prenda> ... unasPrendas){
-		
-	}
+//Paso de la entrega 3, uso una interfaz y una clase para asumir el comportamiento
+//de la generacion por producto cartesiano de los Atuendos
+interface GeneradorDeSugerencias{
+	List<Prenda> prendasSuperiores;
+    List<Prenda> prendasInferiores;
+    List<Prenda> calzados;
+    
+	List<Atuendo> generarSugerencias(List<Prenda> prendasAptas);
 }
 
-class Sugerencia{
-	Atuendo atuendo;
+class GeneradorDeSugerenciaPosta implements GeneradorDeSugerencias{
+	List<Atuendo> generarSugerencias(List<Prenda> prendasAptas){
+		//Codigo
+	}	
+}
 
-	public generarSugerencia(List<Prenda> prendas){
-		if(esAtuendoAdecuado(prendas))
-		return new Atuendo(prendas);
+//En caso de que se necesite, podria crear una interfaz con los distintos criterios que se necesiten
+//y hacer polimorfico con un "filtrarPrendasCritrio()"
+
+class SugerenciaDeClima{
+	GeneradorDeSugerencias generadorDeSugerencias;
+
+	public List<Atuendo> filtrarPrendasClima(List<Prenda> prendas){
+		if(sonPrendasAdecuadasAlClima(prendas))
+		return generadorDeSugerencias.generarSugerencias(prendas);
 	}
 
-	public boolean esAtuendoAdecuado(List<Prenda> prendas){  
-		return prendas.forEach(prenda -> prenda.esTemperaturaAcorde(temperaturaActual()) == true);
+	public boolean sonPrendasAdecuadasAlClima(List<Prenda> prendas){  
+		return prendas.filter(prenda -> prenda.esTemperaturaAcorde(temperaturaActual()) == true);
 	}
 
 	public double temperaturaActual(){
 		List<Map<String, Object>> condicionesClimaticas = AccuWeatherAPI.getInstance().getWeather(“Buenos Aires, Argentina”);
-		return condicionesClimaticas.get(0).get("Temperature").get(0);
+		return condicionesClimaticas.get(0).get("Temperature").get(0); //Creo que asi llamaría a la temperatura
 	}
 }
 
@@ -184,9 +188,11 @@ public interface ApiClima{
 
 
 public final class AccuWeatherAPI implements ApiClima{
+	int intentos = 0;
 
     public final List<Map<String, Object>> getWeather(String ciudad) {
-		return Arrays.asList(new HashMap<String, Object>(){{
+		if(intentos <= 10){
+			return Arrays.asList(new HashMap<String, Object>(){{
 			put("DateTime", "2019-05-03T01:00:00-03:00");
 			put("EpochDateTime", 1556856000);
 			put("WeatherIcon", 33);
@@ -201,6 +207,9 @@ public final class AccuWeatherAPI implements ApiClima{
 				put("UnitType", 18);
 			}});
 		}});
+			intentos++;
+	}else{
+		decimoLlamadoDiarioException("Ya has corroborado mas de 10 veces el tiempo. Espera hasta mañana.");
 	}
 }
 
@@ -211,4 +220,8 @@ public PrendaInvalidaException extends RuntimeException {
 
 public UniformeInvalidoException extends RuntimeException {
   	public uniformeInvalidaException(String motivo){super("El uniforme es invalido. Motivo: " + motivo);}
+}
+
+public DecimoLlamadoDiarioException extends RuntimeException {
+  	public decimoLlamadoDiarioException(String motivo){super(motivo);}
 }

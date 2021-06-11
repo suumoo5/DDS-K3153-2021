@@ -179,6 +179,10 @@ public class Guardarropas{
     	this.criterio = criterio
     }
 
+    public void agregarPrenda(Prenda prenda){
+    	
+    }
+
    	public boolean existe(Prenda prenda){
    		return prendasSuperiores.contains(prenda) 
    			|| prendasInferiores.contains(prenda) 
@@ -226,7 +230,7 @@ public class AgregarPrendaDeSugerencia implements SugerenciasDeUsuarios{
 		if(guardarropa.existe(this.prenda)
 			throw new PrendaYaExisteEnGuardarropaException("Prenda ya existe en guardarropa.");
 		guardarropa.cumpleCriterio(Prenda prenda);
-		guardarropa.add(this.prenda);
+		guardarropa.agregarPrenda(this.prenda);
 		ejecutado = true;	//horrible
 		cantidadDeVecesSugeridas++;
 	}
